@@ -26,6 +26,12 @@ public class PetsController {
 		
 		return ResponseEntity.ok().body(repository.findAll()); 
 	}
+
+	@GetMapping("/{_id}")
+	public ResponseEntity<Pet> findPetById(@PathVariable("_id") Object _id) {
+
+		return ResponseEntity.ok().body(repository.findBy_id(_id));
+	}
 	
 	@PostMapping
 	public ResponseEntity<Pet> createPet(@RequestBody Pet pet) {
@@ -38,5 +44,7 @@ public class PetsController {
 
 		return ResponseEntity.created(location).body(petResponse);
 	}
+
+
 
 }
