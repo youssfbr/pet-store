@@ -45,6 +45,29 @@ public class PetsController {
 		return ResponseEntity.created(location).body(petResponse);
 	}
 
+	@DeleteMapping("{_id}")
+	public ResponseEntity<Void> deletePet(@PathVariable("_id") ObjectId _id) {
+		checkIfExist(_id);
+		repository.delete(repository.findBy_id(_id));
 
+		return ResponseEntity.accepted().build();
+	}
+
+	@PutMapping("{_id}")
+	public ResponseEntity<Void> modifyPetById(@PathVariable("_id") ObjectId _id, @RequestBody Pet pet) {
+		checkIfExist(_id);
+		pet.set_id(_id);
+		repository.save(pet);
+
+		return  ResponseEntity.accepted().build();
+	}
+
+	private ResponseEntity<Void> checkIfExist(ObjectId _id) {
+		if (!repository.existsById(_id.toHexString())) {
+			return ResponseEntity.noContent().build();
+		};
+
+		return null;
+	}
 
 }
